@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAKSPRODUK</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    margin: 0;
+}
+
+header {
+    text-align: center;
+    padding: 15px;
+    background: #1e293b;
+    font-size: 22px;
+    text-shadow: 0 0 10px #22c55e;
+}
+
+.container { padding:20px; }
+
+input, textarea {
+    width:100%;
+    padding:8px;
+    margin:5px 0;
+    border-radius:6px;
+    border:none;
+}
+
+button {
+    width:100%;
+    padding:8px;
+    margin-top:5px;
+    border:none;
+    border-radius:8px;
+    background:#22c55e;
+    color:white;
+}
+
+.card {
+    background:#1e293b;
+    border-radius:12px;
+    margin-top:15px;
+    overflow:hidden;
+}
+
+.card img {
+    width:100%;
+    height:150px;
+    object-fit:cover;
+}
+
+.card-content { padding:10px; }
+
+.price { color:#22c55e; }
+
+a {
+    color:#22c55e;
+    text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+🛒 <span style="color:#22c55e;">RAKS</span><span style="color:white;">PRODUK</span>
+</header>
+
+<div class="container">
+
+<input id="name" placeholder="Nama produk">
+<input id="price" placeholder="Harga">
+<textarea id="desc" placeholder="Deskripsi (boleh isi link)"></textarea>
+<input type="file" id="img">
+
+<button onclick="tambah()">Tambah</button>
+
+<div id="list"></div>
+
+</div>
+
+<script>
+
+// 🔗 AUTO LINK
+function linkify(text) {
+    const urlPattern = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlPattern, function(url) {
+        return `<a href="${url}" target="_blank">${url}</a>`;
+    });
+}
+
+// ➕ TAMBAH PRODUK
+function tambah() {
+    const name = document.getElementById("name").value;
+    const price = document.getElementById("price").value;
+    const desc = document.getElementById("desc").value;
+    const file = document.getElementById("img").files[0];
+
+    if (!name || !price) {
+        alert("Isi nama & harga!");
+        return;
+    }
+
+    let imgURL = "";
+
+    if (file) {
+        imgURL = URL.createObjectURL(file);
+    }
+
+    document.getElementById("list").innerHTML += `
+    <div class="card">
+        ${imgURL ? `<img src="${imgURL}">` : ""}
+        <div class="card-content">
+            <h3>${name}</h3>
+            <p class="price">${price}</p>
+            <p>${linkify(desc)}</p>
+        </div>
+    </div>
+    `;
+}
+
+</script>
+
+</body>
+</html>
